@@ -1274,3 +1274,22 @@ section .container {
 .green {
  color: #18d26e !important;
 }
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+.attention-animation {
+  animation: pulse 1.5s infinite ease-in-out;
+}

@@ -42,13 +42,28 @@
    * Mobile nav toggle
    */
   on('click', '.mobile-nav-toggle', function(e) {
-    select('#navbar').classList.toggle('navbar-mobile')
-    this.classList.toggle('bi-list')
-    this.classList.toggle('bi-x')
-  })
+    const navbar = select('#navbar');
+    navbar.classList.toggle('navbar-mobile');
+    
+    this.classList.toggle('bi-list');
+    this.classList.toggle('bi-x');
+
+    // Remove attention animation on click
+    this.classList.remove('attention-animation');
+  });
 
   /**
-   * Scrool with ofset on links with a class name .scrollto
+   * Add animation to menu icon on load
+   */
+  window.addEventListener('load', () => {
+    const menuIcon = select('.mobile-nav-toggle');
+    if (menuIcon) {
+      menuIcon.classList.add('attention-animation');
+    }
+  });
+
+  /**
+   * Scroll with offset on links with a class name .scrollto
    */
   on('click', '#navbar .nav-link', function(e) {
     let section = select(this.hash)
@@ -178,7 +193,7 @@
   });
 
   /**
-   * Porfolio isotope and filter
+   * Portfolio isotope and filter
    */
   window.addEventListener('load', () => {
     let portfolioContainer = select('.portfolio-container');
@@ -229,25 +244,25 @@
   /**
    * Portfolio details slider
    */
-var swiper = new Swiper(".portfolio-details-slider", {
-  slidesPerView: 1,
-  spaceBetween: 10,
-  centeredSlides: true,
-  loop: true,
-  pagination: {
-    el: ".swiper-pagination",
-    clickable: true,
-  },
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
-  autoHeight: true, // Ensures the slider adapts to content height
-});
+  var swiper = new Swiper(".portfolio-details-slider", {
+    slidesPerView: 1,
+    spaceBetween: 10,
+    centeredSlides: true,
+    loop: true,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    autoHeight: true,
+  });
 
   /**
    * Initiate Pure Counter 
    */
   new PureCounter();
 
-})()
+})();
