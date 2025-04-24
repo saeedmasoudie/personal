@@ -4,51 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting...</title>
+    <meta name="description" content="Redirecting you to the appropriate page based on your preferences.">
     <meta name="robots" content="noindex">
-    <script>
-        // Function to parse cookies
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('assets/img/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
         }
 
-        // Main redirection logic
-        (function redirectUser() {
-            // Check for user's preferred language from cookies
-            const preferredLang = getCookie('lang');
+        /* Animation for "Redirecting..." dots */
+        #redirecting-text span {
+            animation: blink 1.5s infinite;
+        }
 
-            // If cookie exists, redirect to the preferred language page
-            if (preferredLang) {
-                window.location.href = `/${preferredLang}/`;
-                return;
+        #redirecting-text span:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        #redirecting-text span:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        #redirecting-text span:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 0;
             }
-
-            // If no cookie, use Cloudflare's IP geolocation to determine language
-            fetch(window.location.href)
-                .then(() => {
-                    // Cloudflare's CF-IPCountry is not accessible via client-side JavaScript directly,
-                    // so we use a fallback default language.
-                    const userCountry = ''; // Replace or handle if your backend passes this value
-                    const lang = (userCountry === 'IR') ? 'fa' : 'en';
-
-                    // Set a cookie for future visits
-                    document.cookie = `lang=${lang}; path=/; max-age=31536000; Secure`;
-
-                    // Redirect to the appropriate language page
-                    window.location.href = `/${lang}/`;
-                })
-                .catch(() => {
-                    // Fallback default to English
-                    window.location.href = '/en/';
-                });
-        })();
-    </script>
+            50% {
+                opacity: 1;
+            }
+        }
+    </style>
+    <script>
+      function getCookie(name) {
+          const value = `; ${document.cookie}`;
+          const parts = value.split(`; ${name}=`);
+          if (parts.length === 2) return parts.pop().split(';').shift();
+      }
+  
+      (function redirectUser() {
+          const currentUrl = window.location.origin.includes('file://') ? 'http://localhost:8000' : window.location.origin;
+          const lang = getCookie('lang') || 'en'; // Default to English
+  
+          console.log(`Redirecting to: ${currentUrl}/${lang}/`); // Debugging
+  
+          // Perform fade-out effect and redirect
+          document.body.style.transition = "opacity 0.5s ease-out";
+          document.body.style.opacity = 0;
+  
+          setTimeout(() => {
+              window.location.href = `${currentUrl}/${lang}/`; // Redirect to the appropriate language path
+          }, 500); // Redirect after fade-out
+      })();
+  
+      // Fallback after a long wait
+      setTimeout(() => {
+          const fallbackButton = document.getElementById('manual-redirect');
+          if (fallbackButton) {
+              fallbackButton.style.display = 'inline-block'; // Show the manual redirection button
+          }
+      }, 10000); // Show button after 10 seconds
+  </script>
+  
+  
 </head>
-<body>
-    <noscript>
-        <meta http-equiv="refresh" content="0; url=/en/">
-    </noscript>
-    <p>Redirecting you to the appropriate language version...</p>
+<body class="d-flex flex-column justify-content-center align-items-center min-vh-100 text-light">
+    <div class="text-center">
+        <!-- Animated "Redirecting..." -->
+        <h1 class="fw-bold mb-3">
+            <span id="redirecting-text">Redirecting<span>.</span><span>.</span><span>.</span></span>
+        </h1>
+
+        <p class="text-secondary mb-4">Please wait while we take you to the appropriate page based on your preferences.</p>
+
+        <!-- Spinner -->
+        <div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+
+        <!-- Manual Redirect Button -->
+        <button id="manual-redirect" class="btn btn-warning mt-4 fw-bold" style="display: none;" onclick="window.location.href='/en/'">
+            Redirect Manually
+        </button>
+    </div>
 </body>
 </html>
