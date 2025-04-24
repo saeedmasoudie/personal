@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <meta name="robots" content="noindex">
+    <script>
+        // Function to parse cookies
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        // Main redirection logic
+        (function redirectUser() {
+            // Check for user's preferred language from cookies
+            const preferredLang = getCookie('lang');
+
+            // If cookie exists, redirect to the preferred language page
+            if (preferredLang) {
+                window.location.href = `/${preferredLang}/`;
+                return;
+            }
+
+            // If no cookie, use Cloudflare's IP geolocation to determine language
+            fetch(window.location.href)
+                .then(() => {
+                    // Cloudflare's CF-IPCountry is not accessible via client-side JavaScript directly,
+                    // so we use a fallback default language.
+                    const userCountry = ''; // Replace or handle if your backend passes this value
+                    const lang = (userCountry === 'IR') ? 'fa' : 'en';
+
+                    // Set a cookie for future visits
+                    document.cookie = `lang=${lang}; path=/; max-age=31536000; Secure`;
+
+                    // Redirect to the appropriate language page
+                    window.location.href = `/${lang}/`;
+                })
+                .catch(() => {
+                    // Fallback default to English
+                    window.location.href = '/en/';
+                });
+        })();
+    </script>
+</head>
+<body>
+    <noscript>
+        <meta http-equiv="refresh" content="0; url=/en/">
+    </noscript>
+    <p>Redirecting you to the appropriate language version...</p>
+</body>
+</html>
