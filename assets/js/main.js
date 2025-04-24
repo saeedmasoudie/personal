@@ -266,3 +266,4 @@
   new PureCounter();
 
 })();
+

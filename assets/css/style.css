@@ -1,74 +1,16 @@
+/**
+* Template Name: Personal
+* Template URL: https://bootstrapmade.com/personal-free-resume-bootstrap-template/
+* Updated: Mar 17 2024 with Bootstrap v5.3.3
+* Author: BootstrapMade.com
+* License: https://bootstrapmade.com/license/
+*/
+
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
-@font-face {
-  font-family: "IRANSans";
-  src: url("../fonts/IRANSansXBlack.ttf") format("truetype");
-  font-weight: 900;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "IRANSans";
-  src: url("../fonts/IRANSansXBold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "IRANSans";
-  src: url("../fonts/IRANSansXDemiBold.ttf") format("truetype");
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "IRANSans";
-  src: url("../fonts/IRANSansXExtraBold.ttf") format("truetype");
-  font-weight: 800;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "IRANSans";
-  src: url("../fonts/IRANSansXLight.ttf") format("truetype");
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "IRANSans";
-  src: url("../fonts/IRANSansXMedium.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "IRANSans";
-  src: url("../fonts/IRANSansXRegular.ttf") format("truetype");
-  font-style: normal;
-  font-weight: normal;
-}
-
-@font-face {
-  font-family: "IRANSans";
-  src: url("../fonts/IRANSansXThin.ttf") format("truetype");
-  font-weight: 100;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "IRANSans";
-  src: url("../fonts/IRANSansXUltraLight.ttf") format("truetype");
-  font-weight: 200;
-  font-style: normal;
-}
-
 body {
-  font-family: "IRANSans";
-  font-weight: normal;
-  font-style: normal;
-  direction: rtl;
+  font-family: "Open Sans", sans-serif;
   background-color: #040404;
   color: #fff;
   position: relative;
@@ -93,14 +35,6 @@ body::before {
   }
 }
 
-@media (max-width: 992px) {
-  body::before {
-    width: 100vw;
-	height: 100vh;
-	background-position: center, center;
-  }
-}
-
 a {
   color: #18d26e;
   text-decoration: none;
@@ -117,7 +51,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "IRANSans";
+  font-family: "Raleway", sans-serif;
 }
 
 /*--------------------------------------------------------------
@@ -143,7 +77,7 @@ h6 {
   padding: 0;
   line-height: 1;
   font-weight: 700;
-  font-family: "IRANSans";
+  font-family: "Poppins", sans-serif;
 }
 
 #header h1 a,
@@ -200,8 +134,7 @@ h6 {
 
   #header h2 {
     font-size: 20px;
-	text-align: center;
-    line-height: 45px;
+    line-height: 30px;
   }
 
   #header .social-links {
@@ -231,7 +164,7 @@ h6 {
 }
 
 #header.header-top h1 {
-  margin-left: auto;
+  margin-right: auto;
   font-size: 36px;
 }
 
@@ -267,11 +200,7 @@ h6 {
 */
 .navbar {
   padding: 0;
-  margin-top: 25px;
-}
-
-.hidden {
-	display:none;
+  margin-top: 35px;
 }
 
 .navbar ul {
@@ -287,7 +216,7 @@ h6 {
 }
 
 .navbar li+li {
-  margin-right: 30px;
+  margin-left: 30px;
 }
 
 .navbar a,
@@ -296,7 +225,7 @@ h6 {
   align-items: center;
   justify-content: space-between;
   padding: 0;
-  font-family: "IRANSans";
+  font-family: "Poppins", sans-serif;
   font-size: 16px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.7);
@@ -317,7 +246,7 @@ h6 {
   width: 0;
   height: 2px;
   bottom: -4px;
-  right: 0;
+  left: 0;
   background-color: #18d26e;
   visibility: hidden;
   width: 0px;
@@ -349,7 +278,7 @@ h6 {
   line-height: 0;
   transition: 0.5s;
   position: fixed;
-  left: 15px;
+  right: 15px;
   top: 15px;
 }
 
@@ -379,7 +308,7 @@ h6 {
 .navbar-mobile .mobile-nav-toggle {
   position: absolute;
   top: 15px;
-  left: 15px;
+  right: 15px;
 }
 
 .navbar-mobile ul {
@@ -454,7 +383,7 @@ section .container {
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #aaaaaa;
-  font-family: "IRANSans";
+  font-family: "Poppins", sans-serif;
 }
 
 .section-title h2::after {
@@ -469,10 +398,10 @@ section .container {
 .section-title p {
   margin: 0;
   margin: -15px 0 15px 0;
-  font-size: 26px;
+  font-size: 36px;
   font-weight: 700;
   text-transform: uppercase;
-  font-family: "IRANSans";
+  font-family: "Poppins", sans-serif;
   color: #fff;
 }
 
@@ -497,12 +426,12 @@ section .container {
 }
 
 .about-me .content ul strong {
-  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .about-me .content ul i {
   font-size: 16px;
-  margin-left: 5px;
+  margin-right: 5px;
   color: #18d26e;
   line-height: 0;
 }
@@ -549,18 +478,13 @@ section .container {
 .counts .count-box p {
   padding: 0;
   margin: 0;
-  font-family: "IRANSans";
+  font-family: "Raleway", sans-serif;
   font-size: 14px;
 }
 
 /*--------------------------------------------------------------
 # Skills
 --------------------------------------------------------------*/
-
-.ltr{
-    direction: ltr;
-}
-
 .skills .progress {
   height: 60px;
   display: block;
@@ -574,7 +498,7 @@ section .container {
   text-transform: uppercase;
   display: block;
   font-weight: 600;
-  font-family: "IRANSans";
+  font-family: "Poppins", sans-serif;
   color: #fff;
 }
 
@@ -607,7 +531,7 @@ section .container {
 
 .interests .icon-box i {
   font-size: 32px;
-  padding-left: 10px;
+  padding-right: 10px;
   line-height: 1;
 }
 
@@ -640,7 +564,7 @@ section .container {
 .testimonials .testimonial-item .testimonial-img {
   width: 90px;
   border-radius: 50%;
-  margin: -40px 40px 0 0;
+  margin: -40px 0 0 40px;
   position: relative;
   z-index: 2;
   border: 6px solid rgba(255, 255, 255, 0.12);
@@ -649,14 +573,14 @@ section .container {
 .testimonials .testimonial-item h3 {
   font-size: 18px;
   font-weight: bold;
-  margin: 10px 45px 5px 0;
+  margin: 10px 0 5px 45px;
   color: #fff;
 }
 
 .testimonials .testimonial-item h4 {
   font-size: 14px;
   color: #999;
-  margin: 0 45px 0 0;
+  margin: 0 0 0 45px;
 }
 
 .testimonials .testimonial-item .quote-icon-left,
@@ -717,9 +641,9 @@ section .container {
 }
 
 .resume .resume-item {
-  padding: 0 20px 20px 0;
+  padding: 0 0 20px 20px;
   margin-top: -2px;
-  border-right: 2px solid rgba(255, 255, 255, 0.2);
+  border-left: 2px solid rgba(255, 255, 255, 0.2);
   position: relative;
 }
 
@@ -728,7 +652,7 @@ section .container {
   font-size: 18px;
   font-weight: 600;
   text-transform: uppercase;
-  font-family: "IRANSans";
+  font-family: "Poppins", sans-serif;
   color: #18d26e;
   margin-bottom: 10px;
 }
@@ -760,7 +684,7 @@ section .container {
   width: 16px;
   height: 16px;
   border-radius: 50px;
-  right: -9px;
+  left: -9px;
   top: 0;
   background: #18d26e;
   border: 2px solid #18d26e;
@@ -1091,7 +1015,7 @@ section .container {
   color: #18d26e;
   border-radius: 50%;
   padding: 14px;
-  float: right;
+  float: left;
   background: rgba(255, 255, 255, 0.1);
 }
 
@@ -1099,7 +1023,7 @@ section .container {
   font-size: 20px;
   color: rgba(255, 255, 255, 0.5);
   font-weight: 700;
-  margin: 10px 68px 8px 0;
+  margin: 10px 0 8px 68px;
 }
 
 .contact .info-box p {
@@ -1107,7 +1031,7 @@ section .container {
   color: #fff;
   line-height: 24px;
   font-size: 14px;
-  margin: 0 68px 0 0;
+  margin: 0 0 0 68px;
 }
 
 .contact .info-box .social-links {
@@ -1292,4 +1216,27 @@ section .container {
 
 .attention-animation {
   animation: pulse 1.5s infinite ease-in-out;
+}
+
+.ltr{
+  direction: ltr;
+}
+
+.hidden {
+	display:none;
+}
+
+@media (max-width: 992px) {
+  body::before {
+    width: 100vw;
+	height: 100vh;
+	background-position: center, center;
+  }
+}
+
+.language-switcher {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
 }

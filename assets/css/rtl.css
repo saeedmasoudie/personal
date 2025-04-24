@@ -1,0 +1,206 @@
+@font-face {
+  font-family: "IRANSans";
+  src: url("../fonts/IRANSansXBlack.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANSans";
+  src: url("../fonts/IRANSansXBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANSans";
+  src: url("../fonts/IRANSansXDemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANSans";
+  src: url("../fonts/IRANSansXExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANSans";
+  src: url("../fonts/IRANSansXLight.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANSans";
+  src: url("../fonts/IRANSansXMedium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANSans";
+  src: url("../fonts/IRANSansXRegular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "IRANSans";
+  src: url("../fonts/IRANSansXThin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IRANSans";
+  src: url("../fonts/IRANSansXUltraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+body {
+  font-family: "IRANSans";
+  font-weight: normal;
+  font-style: normal;
+  direction: rtl;
+}
+
+body::before {
+  background: #040404 url("../img/bg-rtl.jpg") top right no-repeat !important;
+}
+
+@media (max-width: 992px) {
+  body::before {
+    width: 100vw;
+	height: 100vh;
+	background-position: center, center;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "IRANSans" !important;
+}
+
+#header h1 {
+  font-family: "IRANSans";
+}
+
+@media (max-width: 992px) {
+  #header h2 {
+	  text-align: center;
+    line-height: 45px;
+  }
+}
+
+#header.header-top h1 {
+  margin-right: 0;
+  margin-left: auto;
+  font-size: 36px;
+}
+
+.navbar {
+  margin-top: 25px !important;
+}
+
+.navbar li+li {
+  margin-right: 30px;
+  margin-left: none;
+}
+
+.navbar a,
+.navbar a:focus {
+  font-family: "IRANSans";
+}
+
+.navbar a:before {
+  right: 0;
+  left: auto;
+}
+
+.mobile-nav-toggle {
+  left: 15px;
+  right: auto;
+}
+
+.navbar-mobile .mobile-nav-toggle {
+  left: 15px;
+  right: auto;
+}
+
+.section-title h2 {
+  font-family: "IRANSans";
+}
+
+.section-title p {
+  font-size: 26px;
+  font-family: "IRANSans";
+}
+
+.about-me .content ul strong {
+  margin-left: 10px;
+  margin-right: none;
+}
+
+.about-me .content ul i {
+  margin-left: 5px;
+  margin-right: 0;
+}
+
+.bi-chevron-right::before {
+  content: "\f284" !important;
+}
+
+.counts .count-box p {
+  font-family: "IRANSans";
+}
+
+.skills .progress .skill {
+  font-family: "IRANSans";
+}
+
+.interests .icon-box i {
+  padding-left: 10px;
+}
+
+.testimonials .testimonial-item .testimonial-img {
+  margin: -40px 40px 0 0 !important;
+}
+
+.testimonials .testimonial-item h3 {
+  margin: 10px 45px 5px 0 !important
+}
+
+.resume .resume-item {
+  padding: 0 20px 20px 0 !important;
+  border-right: 2px solid rgba(255, 255, 255, 0.2);
+  border-left: none;
+}
+
+.resume .resume-item h4 {
+  font-family: "IRANSans";
+}
+
+.resume .resume-item::before {
+  right: -9px;
+  left: auto;
+}
+
+.contact .info-box i.bx {
+  float: right;
+}
+
+.contact .info-box h3 {
+  margin: 10px 68px 8px 0 !important;
+}
+
+.contact .info-box p {
+  margin: 0 68px 0 0 !important;
+}
