@@ -40,36 +40,52 @@
         }
     </style>
     <script>
-      function getCookie(name) {
+        function getCookie(name) {
           const value = `; ${document.cookie}`;
           const parts = value.split(`; ${name}=`);
           if (parts.length === 2) return parts.pop().split(';').shift();
-      }
-  
-      (function redirectUser() {
-          const currentUrl = window.location.origin.includes('file://') ? 'http://localhost:8000' : window.location.origin;
-          const lang = getCookie('lang') || 'en'; // Default to English
-  
-          console.log(`Redirecting to: ${currentUrl}/${lang}/`); // Debugging
-  
-          // Perform fade-out effect and redirect
+        }
+      
+        function fadeOutAndRedirect(targetUrl) {
           document.body.style.transition = "opacity 0.5s ease-out";
           document.body.style.opacity = 0;
-  
           setTimeout(() => {
-              window.location.href = `${currentUrl}/${lang}/`; // Redirect to the appropriate language path
-          }, 500); // Redirect after fade-out
-      })();
-  
-      // Fallback after a long wait
-      setTimeout(() => {
-          const fallbackButton = document.getElementById('manual-redirect');
-          if (fallbackButton) {
-              fallbackButton.style.display = 'inline-block'; // Show the manual redirection button
+            window.location.href = targetUrl;
+          }, 500);
+        }
+      
+        document.addEventListener("DOMContentLoaded", function () {
+          let lang = getCookie("lang");
+      
+          if (!lang) {
+            const browserLang = navigator.language || navigator.userLanguage || "en";
+            lang = browserLang.startsWith("fa") ? "fa" : "en";
+            console.log("No language cookie. Using browser language:", browserLang);
+          } else {
+            console.log("Found language cookie:", lang);
           }
-      }, 10000); // Show button after 10 seconds
-  </script>
-  
+      
+          const target = `/${lang}/`;
+          console.log("Redirecting to:", target);
+      
+          // Start redirection
+          fadeOutAndRedirect(target);
+      
+          // Show fallback after 10 seconds
+          const fallbackTimeout = setTimeout(() => {
+            const fallbackButton = document.getElementById("manual-redirect");
+            if (fallbackButton) {
+              fallbackButton.style.display = "inline-block";
+              console.warn("Redirection failed or took too long. Showing manual redirect.");
+            }
+          }, 10000);
+      
+          // Extra: Clear fallback timeout if redirect succeeds early
+          window.addEventListener("beforeunload", () => {
+            clearTimeout(fallbackTimeout);
+          });
+        });
+    </script>
   
 </head>
 <body class="d-flex flex-column justify-content-center align-items-center min-vh-100 text-light">
