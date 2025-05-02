@@ -638,6 +638,31 @@
       });
     });
   </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const persianNumbers = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+        function convertToPersianNumbers(element) {
+            element.innerText = element.innerText.replace(/\d/g, (d) => persianNumbers[d]);
+        }
+        function observeUpdates(selector) {
+            document.querySelectorAll(selector).forEach(element => {
+                new MutationObserver(() => {
+                    setTimeout(() => convertToPersianNumbers(element), 50);
+                }).observe(element, { childList: true });
+            });
+        }
+        document.querySelectorAll("body *:not(form):not(input):not(textarea)").forEach(element => {
+            element.childNodes.forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    node.nodeValue = node.nodeValue.replace(/\d/g, (d) => persianNumbers[d]);
+                }
+            });
+        });
+        observeUpdates(".purecounter");
+        observeUpdates(".progress-bar");
+    });
+    </script>
+    
 
 </body>
 
