@@ -204,3 +204,10 @@ h6 {
 .contact .info-box p {
   margin: 0 68px 0 0 !important;
 }
+
+@media (max-width: 991px) {
+  .language-switcher {
+    top: 20px;
+    right: 20px;
+  }
+}

@@ -148,6 +148,13 @@ h6 {
   }
 }
 
+.language-switcher {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
 /* Header Top */
 #header.header-top {
   height: 80px;
@@ -289,6 +296,11 @@ h6 {
 
   .navbar ul {
     display: none;
+  }
+
+  .language-switcher {
+    top: 10px;
+    right: 60px;
   }
 }
 
@@ -1234,9 +1246,3 @@ section .container {
   }
 }
 
-.language-switcher {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
-}
