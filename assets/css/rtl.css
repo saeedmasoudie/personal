@@ -207,7 +207,12 @@ h6 {
 
 @media (max-width: 991px) {
   .language-switcher {
-    top: 20px;
-    right: 20px;
+    top: 10px;
+    right: auto;
+    left: 50px;
   }
+}
+
+.pt-25 {
+  padding-top: 25px;
 }
