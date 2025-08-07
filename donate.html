@@ -17,7 +17,13 @@
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link id="rtl-stylesheet" href="assets/css/rtl.css" rel="stylesheet" disabled>
+
   <style>
+    /* Custom styles for the donations page */
     body {
       background-color: #040404;
       color: #fff;
@@ -27,6 +33,9 @@
       background: url('assets/img/bg.jpg') no-repeat center center;
       background-size: cover;
       padding: 60px 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
       z-index: 1;
     }
     .donation-section::before {
@@ -81,16 +90,6 @@
     .copy-btn {
       cursor: pointer;
     }
-    .latest-donations ul {
-        list-style-type: none;
-        padding-left: 0;
-    }
-    .latest-donations li {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 10px 15px;
-        border-radius: 5px;
-        margin-bottom: 10px;
-    }
     .tooltip-copied {
       position: absolute;
       background: #18d26e;
@@ -108,10 +107,28 @@
       opacity: 1;
     }
   </style>
-  <link id="rtl-stylesheet" href="assets/css/rtl.css" rel="stylesheet" disabled>
 </head>
 
 <body>
+
+  <!-- ======= Language Switcher ======= -->
+  <div class="language-switcher dropdown">
+    <button class="btn btn-dark dropdown-toggle d-flex align-items-center gap-2" type="button" id="dropdownLang" data-bs-toggle="dropdown" aria-expanded="false">
+      <img src="assets/img/en.png" alt="EN" class="rounded-circle" style="width: 28px; height: 28px;">
+    </button>
+    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg mt-2" aria-labelledby="dropdownLang">
+      <li>
+        <a class="dropdown-item d-flex align-items-center gap-2" href="#" data-lang="fa">
+          <img src="assets/img/fa.png" style="width: 24px; height: 24px;" class="rounded-circle"> فارسی
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item d-flex align-items-center gap-2" href="#" data-lang="en">
+          <img src="assets/img/en.png" style="width: 24px; height: 24px;" class="rounded-circle"> English
+        </a>
+      </li>
+    </ul>
+  </div>
 
   <main id="main">
     <section class="donation-section">
@@ -162,29 +179,7 @@
                 </div>
             </div>
         </div>
-
-        <!-- Latest Donations Section -->
-        <!--
-        <div class="row justify-content-center mt-5">
-            <div class="col-lg-8">
-                <div class="donation-card latest-donations">
-                    <h3 class="text-center" data-translate="donation_latest_title">Latest Donations</h3>
-                    <ul class="mt-4">
-                        <li>
-                            <strong>John Doe</strong> - <span class="text-success">$25.00</span>
-                        </li>
-                        <li>
-                            <strong>Anonymous</strong> - <span class="text-success">0.001 BTC</span>
-                        </li>
-                        <li>
-                            <strong>Jane Smith</strong> - <span class="text-success">$10.00</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        -->
-
+        
         <div class="text-center mt-5">
             <a href="index.html" class="btn btn-outline-light" data-translate="donation_page_home_button">&larr; Back to Home</a>
         </div>
@@ -225,7 +220,6 @@
       }, 2000);
     }
   </script>
-
 
 </body>
 

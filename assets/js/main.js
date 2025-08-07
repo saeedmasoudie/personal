@@ -22,7 +22,6 @@
    */
   const on = (type, el, listener, all = false) => {
     let selectEl = select(el, all)
-
     if (selectEl) {
       if (all) {
         selectEl.forEach(e => e.addEventListener(type, listener))
@@ -42,202 +41,8 @@
     })
   }
 
-  /**
-   * Mobile nav toggle
-   */
-  on('click', '.mobile-nav-toggle', function(e) {
-    const navbar = select('#navbar');
-    navbar.classList.toggle('navbar-mobile');
-    
-    this.classList.toggle('bi-list');
-    this.classList.toggle('bi-x');
-
-    // Remove attention animation on click
-    this.classList.remove('attention-animation');
-  });
-
-  /**
-   * Add animation to menu icon on load
-   */
-  window.addEventListener('load', () => {
-    const menuIcon = select('.mobile-nav-toggle');
-    if (menuIcon) {
-      menuIcon.classList.add('attention-animation');
-    }
-  });
-
-  /**
-   * Scroll with offset on links with a class name .scrollto
-   */
-  on('click', '#navbar .nav-link', function(e) {
-    let section = select(this.hash)
-    if (section) {
-      e.preventDefault()
-
-      let navbar = select('#navbar')
-      let header = select('#header')
-      let sections = select('section', true)
-      let navlinks = select('#navbar .nav-link', true)
-
-      navlinks.forEach((item) => {
-        item.classList.remove('active')
-      })
-
-      this.classList.add('active')
-
-      if (navbar.classList.contains('navbar-mobile')) {
-        navbar.classList.remove('navbar-mobile')
-        let navbarToggle = select('.mobile-nav-toggle')
-        navbarToggle.classList.toggle('bi-list')
-        navbarToggle.classList.toggle('bi-x')
-      }
-
-      if (this.hash == '#header') {
-        header.classList.remove('header-top')
-        sections.forEach((item) => {
-          item.classList.remove('section-show')
-        })
-        return;
-      }
-
-      if (!header.classList.contains('header-top')) {
-        header.classList.add('header-top')
-        setTimeout(function() {
-          sections.forEach((item) => {
-            item.classList.remove('section-show')
-          })
-          section.classList.add('section-show')
-
-        }, 350);
-      } else {
-        sections.forEach((item) => {
-          item.classList.remove('section-show')
-        })
-        section.classList.add('section-show')
-      }
-
-      scrollto(this.hash)
-    }
-  }, true)
-
-  /**
-   * Activate/show sections on load with hash links
-   */
-  window.addEventListener('load', () => {
-    if (window.location.hash) {
-      let initial_nav = select(window.location.hash)
-
-      if (initial_nav) {
-        let header = select('#header')
-        let navlinks = select('#navbar .nav-link', true)
-
-        header.classList.add('header-top')
-
-        navlinks.forEach((item) => {
-          if (item.getAttribute('href') == window.location.hash) {
-            item.classList.add('active')
-          } else {
-            item.classList.remove('active')
-          }
-        })
-
-        setTimeout(function() {
-          initial_nav.classList.add('section-show')
-        }, 350);
-
-        scrollto(window.location.hash)
-      }
-    }
-  });
-
-  /**
-   * Skills animation
-   */
-  let skilsContent = select('.skills-content');
-  if (skilsContent) {
-    new Waypoint({
-      element: skilsContent,
-      offset: '80%',
-      handler: function(direction) {
-        let progress = select('.progress .progress-bar', true);
-        progress.forEach((el) => {
-          el.style.width = el.getAttribute('aria-valuenow') + '%'
-        });
-      }
-    })
-  }
-
-  /**
-   * Portfolio isotope and filter
-   */
-  window.addEventListener('load', () => {
-    let portfolioContainer = select('.portfolio-container');
-    if (portfolioContainer) {
-      let portfolioIsotope = new Isotope(portfolioContainer, {
-        itemSelector: '.portfolio-item',
-        layoutMode: 'fitRows'
-      });
-
-      let portfolioFilters = select('#portfolio-flters li', true);
-
-      on('click', '#portfolio-flters li', function(e) {
-        e.preventDefault();
-        portfolioFilters.forEach(function(el) {
-          el.classList.remove('filter-active');
-        });
-        this.classList.add('filter-active');
-
-        portfolioIsotope.arrange({
-          filter: this.getAttribute('data-filter')
-        });
-      }, true);
-    }
-
-  });
-
-  /**
-   * Initiate portfolio lightbox 
-   */
-  const portfolioLightbox = GLightbox({
-    selector: '.glightbox'
-  });
-
-  /**
-   * Initiate portfolio details lightbox 
-   */
-  const portfolioDetailsLightbox = GLightbox({
-    selector: '.portfolio-details-lightbox',
-    width: '90%',
-    height: '90vh'
-  });
-
-  /**
-   * Portfolio details slider
-   */
-  new Swiper(".portfolio-details-slider", {
-    speed: 400,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    pagination: {
-      el: ".swiper-pagination",
-      type: "bullets",
-      clickable: true,
-    },
-  });
-
-  /**
-   * Initiate Pure Counter 
-   */
-  new PureCounter();
-
-  /**
-   * Language translation logic
-   */
-  document.addEventListener("DOMContentLoaded", function() {
-    const translations = {
+  // --- LANGUAGE LOGIC (RUNS ON ALL PAGES) ---
+  const translations = {
       en: {
         page_title: "Saeed Masoudi's personal website | Python and Django developer",
         meta_description: "I am Saeed Masoudi, a Python and Django developer. This is my personal website where I present my portfolio, skills, and services.",
@@ -610,98 +415,253 @@
         project_widgetjs_description: "آب و هوای امروز و چند روز آینده را به همراه کلیک راست و اعداد فارسی، بدون نیاز به ثبت نام و کاملاً ساده نمایش می دهد. آموزش ها در گیت هاب قرار داده شده است"
       }
     };
-    const rtlStylesheet = document.getElementById('rtl-stylesheet');
 
-    function setLanguage(lang) {
-      document.documentElement.lang = lang;
-      document.body.dir = lang === 'fa' ? 'rtl' : 'ltr';
-      if(rtlStylesheet) rtlStylesheet.disabled = lang !== 'fa';
-
-      document.querySelectorAll('[data-translate]').forEach(element => {
-        const key = element.getAttribute('data-translate');
-        if (translations[lang] && translations[lang][key]) {
-          const translation = translations[lang][key];
-          
-          if (element.tagName === 'META') {
-            element.setAttribute('content', translation);
-          } else if (element.tagName === 'TITLE') {
-            element.innerText = translation;
-          } else if (element.hasAttribute('placeholder')) {
-             element.placeholder = translation;
-          } else {
-            element.innerHTML = translation;
-          }
-        }
-      });
-      
-      const langImage = document.querySelector('#dropdownLang img');
-      if (langImage) {
-        langImage.src = `assets/img/${lang}.png`;
-        langImage.alt = lang.toUpperCase();
-      }
-    }
-
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-    }
-
-    function setCookie(name, value, days) {
-      let expires = "";
-      if (days) {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toUTCString();
-      }
-      document.cookie = `${name}=${encodeURIComponent(value || "")}${expires}; path=/; SameSite=Lax`;
-    }
+  function setLanguage(lang) {
+    document.documentElement.lang = lang;
+    document.body.dir = lang === 'fa' ? 'rtl' : 'ltr';
     
-    async function detectLanguage() {
-      const savedLang = getCookie('lang');
-      if (savedLang) {
-        setLanguage(savedLang);
-        return;
-      }
-
-      try {
-        // Cloudflare includes the user's country in this response header
-        const response = await fetch(window.location.href, { method: "HEAD" });
-        const country = response.headers.get("cf-ipcountry");
-
-        let lang = 'en'; // default
-        if (country === 'IR') {
-          lang = 'fa';
-        } else {
-          const browserLang = navigator.language.split('-')[0];
-          if (['fa', 'en'].includes(browserLang)) {
-            lang = browserLang;
-          }
-        }
-
-        setLanguage(lang);
-        setCookie('lang', lang, 365);
-      } catch (error) {
-        console.error('Language detection failed:', error);
-        // fallback: use browser language
-        const browserLang = navigator.language.split('-')[0];
-        const lang = browserLang === 'fa' ? 'fa' : 'en';
-        setLanguage(lang);
-        setCookie('lang', lang, 365);
-      }
+    const rtlStylesheet = document.getElementById('rtl-stylesheet');
+    if (rtlStylesheet) {
+      rtlStylesheet.disabled = lang !== 'fa';
     }
 
+    document.querySelectorAll('[data-translate]').forEach(element => {
+      const key = element.getAttribute('data-translate');
+      if (translations[lang] && translations[lang][key]) {
+        const translation = translations[lang][key];
+        
+        if (element.tagName === 'META') {
+          element.setAttribute('content', translation);
+        } else if (element.tagName === 'TITLE') {
+          element.innerText = translation;
+        } else if (element.hasAttribute('placeholder')) {
+           element.placeholder = translation;
+        } else {
+          element.innerHTML = translation;
+        }
+      }
+    });
+    
+    const langImage = document.querySelector('#dropdownLang img');
+    if (langImage) {
+      langImage.src = `assets/img/${lang}.png`;
+      langImage.alt = lang.toUpperCase();
+    }
+  }
+
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) {
+      try {
+        return decodeURIComponent(parts.pop().split(';').shift());
+      } catch (e) {
+        return parts.pop().split(';').shift();
+      }
+    }
+  }
+
+  function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = `${name}=${encodeURIComponent(value || "")}${expires}; path=/; SameSite=Lax`;
+  }
+  
+  async function initializeLanguage() {
+    const savedLang = getCookie('lang');
+    if (savedLang && ['en', 'fa'].includes(savedLang)) {
+      setLanguage(savedLang);
+      return;
+    }
+
+    try {
+      const response = await fetch(window.location.href, { method: "HEAD" });
+      const country = response.headers.get("cf-ipcountry");
+
+      let lang = 'en'; // default
+      if (country === 'IR') {
+        lang = 'fa';
+      } else {
+        const browserLang = navigator.language.split('-')[0];
+        if (['fa', 'en'].includes(browserLang)) {
+          lang = browserLang;
+        }
+      }
+
+      setLanguage(lang);
+      setCookie('lang', lang, 365);
+    } catch (error) {
+      console.error('Language detection failed:', error);
+      const browserLang = navigator.language.split('-')[0];
+      const lang = browserLang === 'fa' ? 'fa' : 'en';
+      setLanguage(lang);
+      setCookie('lang', lang, 365);
+    }
+  }
+
+  // --- Initialize Language Detection on Page Load ---
+  initializeLanguage();
+
+  // --- Attach Event Listeners after DOM is loaded ---
+  document.addEventListener("DOMContentLoaded", function() {
+    
+    // Manual Language Switcher
     document.querySelectorAll('.dropdown-item[data-lang]').forEach(item => {
       item.addEventListener('click', function(e) {
         e.preventDefault();
         const selectedLang = this.getAttribute('data-lang');
-
         setCookie('lang', selectedLang, 365);
         setLanguage(selectedLang);
       });
     });
 
-    detectLanguage();
+    // --- PAGE-SPECIFIC LOGIC (for index.html) ---
+
+    const header = select('#header');
+    const navbar = select('#navbar');
+
+    if (header && navbar) {
+      on('click', '.mobile-nav-toggle', function(e) {
+        navbar.classList.toggle('navbar-mobile');
+        this.classList.toggle('bi-list');
+        this.classList.toggle('bi-x');
+        this.classList.remove('attention-animation');
+      });
+
+      on('click', '#navbar .nav-link', function(e) {
+        let section = select(this.hash);
+        if (section) {
+          e.preventDefault();
+
+          let sections = select('section', true);
+          let navlinks = select('#navbar .nav-link', true);
+
+          navlinks.forEach((item) => {
+            item.classList.remove('active');
+          });
+          this.classList.add('active');
+
+          if (navbar.classList.contains('navbar-mobile')) {
+            navbar.classList.remove('navbar-mobile');
+            let navbarToggle = select('.mobile-nav-toggle');
+            navbarToggle.classList.toggle('bi-list');
+            navbarToggle.classList.toggle('bi-x');
+          }
+
+          if (this.hash == '#header') {
+            header.classList.remove('header-top');
+            sections.forEach((item) => {
+              item.classList.remove('section-show');
+            });
+            return;
+          }
+
+          if (!header.classList.contains('header-top')) {
+            header.classList.add('header-top');
+            setTimeout(function() {
+              sections.forEach((item) => {
+                item.classList.remove('section-show');
+              });
+              section.classList.add('section-show');
+            }, 350);
+          } else {
+            sections.forEach((item) => {
+              item.classList.remove('section-show');
+            });
+            section.classList.add('section-show');
+          }
+          scrollto(this.hash);
+        }
+      }, true);
+
+      if (window.location.hash) {
+        let initial_nav = select(window.location.hash);
+        if (initial_nav) {
+          header.classList.add('header-top');
+          let navlinks = select('#navbar .nav-link', true);
+          navlinks.forEach((item) => {
+            if (item.getAttribute('href') == window.location.hash) {
+              item.classList.add('active');
+            } else {
+              item.classList.remove('active');
+            }
+          });
+          setTimeout(function() {
+            initial_nav.classList.add('section-show');
+          }, 350);
+          scrollto(window.location.hash);
+        }
+      }
+    }
+
+    const skilsContent = select('.skills-content');
+    if (skilsContent) {
+      new Waypoint({
+        element: skilsContent,
+        offset: '80%',
+        handler: function(direction) {
+          let progress = select('.progress .progress-bar', true);
+          progress.forEach((el) => {
+            el.style.width = el.getAttribute('aria-valuenow') + '%';
+          });
+        }
+      });
+    }
+
+    const portfolioContainer = select('.portfolio-container');
+    if (portfolioContainer) {
+      let portfolioIsotope = new Isotope(portfolioContainer, {
+        itemSelector: '.portfolio-item',
+        layoutMode: 'fitRows'
+      });
+      let portfolioFilters = select('#portfolio-flters li', true);
+      on('click', '#portfolio-flters li', function(e) {
+        e.preventDefault();
+        portfolioFilters.forEach(function(el) {
+          el.classList.remove('filter-active');
+        });
+        this.classList.add('filter-active');
+        portfolioIsotope.arrange({
+          filter: this.getAttribute('data-filter')
+        });
+      }, true);
+    }
+
+    if (typeof PureCounter === 'function') {
+      new PureCounter();
+    }
   });
 
-})(); 
+  // --- GLOBAL INITIALIZERS (Run on all pages if elements exist) ---
+  if (typeof GLightbox === 'function') {
+    const portfolioLightbox = GLightbox({
+      selector: '.glightbox'
+    });
+    const portfolioDetailsLightbox = GLightbox({
+      selector: '.portfolio-details-lightbox',
+      width: '90%',
+      height: '90vh'
+    });
+  }
+  
+  if (typeof Swiper === 'function' && document.querySelector(".portfolio-details-slider")) {
+    new Swiper(".portfolio-details-slider", {
+      speed: 400,
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        type: "bullets",
+        clickable: true,
+      },
+    });
+  }
+
+})();
