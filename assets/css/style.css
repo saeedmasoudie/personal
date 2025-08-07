@@ -1249,3 +1249,95 @@ section .container {
 	background-position: center, center;
   }
 }
+
+/*--------------------------------------------------------------
+# Donation Page
+--------------------------------------------------------------*/
+.donation-section {
+  /* Overrides to make the section visible by default */
+  opacity: 1;
+  position: relative;
+  top: auto;
+  bottom: auto;
+  
+  /* Styles moved from inline <style> tag */
+  background: url('../img/bg.jpg') no-repeat center center;
+  background-size: cover;
+  padding: 60px 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+.donation-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: -1;
+}
+
+.donation-section .section-title h2,
+.donation-section .section-title p,
+.donation-section .donation-card h3,
+.donation-section .donation-card p,
+.donation-section .crypto-address {
+  color: #fff;
+}
+
+.donation-section .donation-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 30px;
+  margin-bottom: 30px;
+  transition: all 0.3s;
+}
+
+.donation-section .donation-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.donation-section .donation-card h3 {
+  color: #18d26e;
+  font-weight: 700;
+}
+
+.donation-section .donation-card .btn-donate {
+  background: #18d26e;
+  border: 0;
+  padding: 10px 30px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 50px;
+}
+
+.donation-section .donation-card .btn-donate:hover {
+  background: #15bb62;
+}
+
+.donation-section .crypto-address {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 15px;
+  border-radius: 5px;
+  word-wrap: break-word;
+  font-family: monospace;
+}
+
+.tooltip-copied {
+  position: absolute;
+  background: #18d26e;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  z-index: 9999;
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tooltip-copied.show {
+  opacity: 1;
+}
