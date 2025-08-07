@@ -148,12 +148,14 @@ h6 {
   }
 }
 
+/* Fixed Language Switcher */
 .language-switcher {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
+    position: fixed; /* Changed from absolute to fixed */
+    top: 20px;
+    right: 20px;
+    z-index: 1001; /* Increased z-index to be on top of the header */
 }
+
 
 /* Header Top */
 #header.header-top {
@@ -287,7 +289,9 @@ h6 {
   position: fixed;
   right: 15px;
   top: 15px;
+  z-index: 9999; /* Make sure it's on top */
 }
+
 
 @media (max-width: 991px) {
   .mobile-nav-toggle {
@@ -299,8 +303,8 @@ h6 {
   }
 
   .language-switcher {
-    top: 10px;
-    right: 60px;
+    top: 15px; /* Adjusted top position */
+    right: 60px; /* Position it next to the hamburger menu */
   }
 }
 
