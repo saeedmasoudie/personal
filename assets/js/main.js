@@ -163,6 +163,13 @@
         contact_form_sent_message: "Your message has been sent. Thank you!",
         contact_form_submit_button: "Send message",
         credits: "Designed by <a href=\"\">Saeed Masoudi </a>",
+        donation_donors_title: "Our Valued Donors",
+        donation_donors_text: "Thank you to everyone who has supported my work! If you have donated and wish to be listed or have your entry modified, please contact me.",
+        donor_table_header_name: "Donor Name",
+        donor_table_header_amount: "Amount/Value",
+        donor_table_header_method: "Method",
+        donor_method_gateway: "Gateway",
+        donor_method_crypto: "Crypto",
         
         // Project Details Pages
         project_page_title: "Saeed Masoudi's personal website",
@@ -349,6 +356,13 @@
         contact_form_sent_message: "پیام شما ارسال شد. متشکرم!",
         contact_form_submit_button: "ارسال پیام",
         credits: "طراحی شده توسط <a href=\"\">سعید مسعودی</a>",
+        donation_donors_title: "حامیان ارزشمند ما",
+        donation_donors_text: "از همه کسانی که از کار من حمایت کرده‌اند متشکرم! اگر کمک مالی کرده‌اید و مایلید نامتان در فهرست قرار گیرد یا مطلبتان اصلاح شود، لطفاً با من تماس بگیرید.",
+        donor_table_header_name: "نام حامی",
+        donor_table_header_amount: "مقدار/ارزش",
+        donor_table_header_method: "روش",
+        donor_method_gateway: "درگاه پرداخت",
+        donor_method_crypto: "ارز دیجیتال",
 
         // Project Details Pages
         project_page_title: "وب سایت شخصی سعید مسعودی",
