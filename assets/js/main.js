@@ -748,23 +748,28 @@
             const response = await fetch(STATUS_API);
             const data = await response.json();
             
+            // Get the static label element
+            const statusLabel = document.getElementById("admin-status-label");
+            
             if (data.online) {
                 // Set Header Status
-                headerStatusSpan.textContent = "آنلاین";
-                headerStatusSpan.style.color = "green";
+                statusLabel.textContent = "وضعیت : "; // Static part
+                headerStatusSpan.textContent = "آنلاین"; // Dynamic part
+                headerStatusSpan.style.color = "#90ee90"; // Light Green for visibility
                 
                 // Set Button Status
                 buttonStatusIndicator.className = "status-online";
             } else {
                 // Set Header Status
-                headerStatusSpan.textContent = "آفلاین";
+                statusLabel.textContent = "وضعیت : "; // Static part
+                headerStatusSpan.textContent = "آفلاین"; // Dynamic part
                 headerStatusSpan.style.color = "red";
                 
                 // Set Button Status
                 buttonStatusIndicator.className = "status-offline";
             }
         } catch (err) {
-            headerStatusSpan.textContent = "وضعیت نامشخص";
+            headerStatusSpan.textContent = "نامشخص";
             headerStatusSpan.style.color = "gray";
             buttonStatusIndicator.className = "status-unknown";
         }
@@ -783,7 +788,11 @@
         chatBox.innerHTML = `
           <div id="chat-header">
             <span>پشتیبانی آنلاین</span>
-            <span id="admin-status" style="font-size: 0.9em; margin-right: 10px;">...</span>
+            
+            <span id="admin-status-label" style="font-size: 0.9em; color: white;"></span>
+            
+            <span id="admin-status" style="font-size: 0.9em;">...</span>
+            
             <button id="chat-close">✕</button>
           </div>
           <div id="chat-messages"></div>
