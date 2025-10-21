@@ -684,77 +684,116 @@
 # Chat Widget (Telegram + Cloudflare Worker)
 --------------------------------------------------------------*/
 (function() {
-  const CHAT_API = "https://relay-chats.saeed-masoodi.workers.dev/send";
+    const WORKER_BASE_URL = "https://relay-chats.saeed-masoodi.workers.dev";
+    const CHAT_API = WORKER_BASE_URL + "/send";
+    const POLL_API = WORKER_BASE_URL + "/poll";
+    
+    // Get or create a unique session ID for the user
+    let sessionId = localStorage.getItem('chatSessionId');
+    if (!sessionId) {
+        sessionId = 'SESS_' + Math.random().toString(36).substring(2, 10);
+        localStorage.setItem('chatSessionId', sessionId);
+    }
+    
+    const POLLING_INTERVAL = 5000; // Check for new replies every 5 seconds
 
-  function initChatWidget() {
-    const chatButton = document.createElement("div");
-    chatButton.id = "chat-widget-btn";
-    chatButton.innerHTML = "💬";
-    document.body.appendChild(chatButton);
+    function addMessage(msg, isUser) {
+        const chatMessages = document.getElementById("chat-messages");
+        const msgElement = document.createElement("div");
+        msgElement.className = isUser ? "chat-msg user" : "chat-msg bot";
+        msgElement.textContent = msg;
+        chatMessages.appendChild(msgElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
 
-    const chatBox = document.createElement("div");
-    chatBox.id = "chat-widget-box";
-    chatBox.innerHTML = `
-      <div id="chat-header">
-        <span>پشتیبانی آنلاین</span>
-        <button id="chat-close">✕</button>
-      </div>
-      <div id="chat-messages"></div>
-      <form id="chat-form">
-        <input type="text" id="chat-input" placeholder="پیام خود را بنویسید..." required />
-        <button type="submit">ارسال</button>
-      </form>
-    `;
-    document.body.appendChild(chatBox);
+    async function pollForReplies() {
+        try {
+            const response = await fetch(`${POLL_API}?sessionId=${sessionId}`);
+            if (!response.ok) {
+                throw new Error("Polling API request failed");
+            }
+            const data = await response.json();
+            
+            if (data.replies && data.replies.length > 0) {
+                data.replies.forEach(reply => {
+                    // Display the reply from the admin (Telegram)
+                    addMessage(reply.text, false); 
+                });
+            }
+        } catch (err) {
+            console.error("Polling error:", err);
+            // Optionally: addMessage("Error checking for replies.", false);
+        }
+    }
 
-    // Toggle chat box
-    chatButton.addEventListener("click", () => {
-      const visible = chatBox.style.display === "flex";
-      chatBox.style.display = visible ? "none" : "flex";
-      chatBox.style.flexDirection = "column";
-    });
+    function initChatWidget() {
+        // ... (Existing DOM creation logic remains the same) ...
+        const chatButton = document.createElement("div");
+        chatButton.id = "chat-widget-btn";
+        chatButton.innerHTML = "💬";
+        document.body.appendChild(chatButton);
 
-    document.getElementById("chat-close").addEventListener("click", () => {
-      chatBox.style.display = "none";
-    });
-
-    // Message sending
-    const chatForm = document.getElementById("chat-form");
-    const chatInput = document.getElementById("chat-input");
-    const chatMessages = document.getElementById("chat-messages");
-
-    chatForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const msg = chatInput.value.trim();
-      if (!msg) return;
-
-      const userMsg = document.createElement("div");
-      userMsg.className = "chat-msg user";
-      userMsg.textContent = msg;
-      chatMessages.appendChild(userMsg);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-      chatInput.value = "";
-
-      try {
-        await fetch(CHAT_API, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: msg })
+        const chatBox = document.createElement("div");
+        chatBox.id = "chat-widget-box";
+        chatBox.innerHTML = `
+          <div id="chat-header">
+            <span>پشتیبانی آنلاین - Session ID: ${sessionId}</span>
+            <button id="chat-close">✕</button>
+          </div>
+          <div id="chat-messages"></div>
+          <form id="chat-form">
+            <input type="text" id="chat-input" placeholder="پیام خود را بنویسید..." required />
+            <button type="submit">ارسال</button>
+          </form>
+        `;
+        document.body.appendChild(chatBox);
+        
+        // ... (Toggle/Close event listeners remain the same) ...
+        chatButton.addEventListener("click", () => {
+            const visible = chatBox.style.display === "flex";
+            chatBox.style.display = visible ? "none" : "flex";
+            chatBox.style.flexDirection = "column";
         });
 
-        const botReply = document.createElement("div");
-        botReply.className = "chat-msg bot";
-        botReply.textContent = "پیام ارسال شد! پاسخ از طریق تلگرام داده می‌شود.";
-        chatMessages.appendChild(botReply);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      } catch (err) {
-        const errorMsg = document.createElement("div");
-        errorMsg.className = "chat-msg bot";
-        errorMsg.textContent = "خطا در ارسال پیام. لطفا دوباره تلاش کنید.";
-        chatMessages.appendChild(errorMsg);
-      }
-    });
-  }
+        document.getElementById("chat-close").addEventListener("click", () => {
+            chatBox.style.display = "none";
+        });
+        
+        const chatForm = document.getElementById("chat-form");
+        const chatInput = document.getElementById("chat-input");
 
-  document.addEventListener("DOMContentLoaded", initChatWidget);
+        // Message sending
+        chatForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const msg = chatInput.value.trim();
+            if (!msg) return;
+
+            addMessage(msg, true); // User message
+            chatInput.value = "";
+
+            try {
+                const response = await fetch(CHAT_API, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: msg, sessionId: sessionId }) // Send the sessionId
+                });
+                
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                
+                // Add the confirmation message
+                addMessage("پیام شما ارسال شد. لطفا منتظر پاسخ بمانید...", false); 
+
+            } catch (err) {
+                addMessage("خطا در ارسال پیام. لطفا دوباره تلاش کنید.", false);
+            }
+        });
+        
+        // Start polling for replies
+        setInterval(pollForReplies, POLLING_INTERVAL);
+        pollForReplies(); // Initial check
+    }
+
+    document.addEventListener("DOMContentLoaded", initChatWidget);
 })();
