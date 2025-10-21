@@ -258,6 +258,12 @@ html[dir="rtl"] .chat-msg.admin {
     border-bottom-right-radius: 15px;
 }
 
+/* RTL Override for Button Indicator */
+html[dir="rtl"] #chat-status-indicator {
+    left: 0;
+    right: auto;
+}
+
 @media (max-width: 600px) {
   html[dir="rtl"] #chat-widget-box {
     right: 2.5%;

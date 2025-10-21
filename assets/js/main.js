@@ -683,8 +683,6 @@
 /*--------------------------------------------------------------
 # Chat Widget (Telegram + Cloudflare Worker)
 --------------------------------------------------------------*/
-// Final main.js
-
 (function() {
     // IMPORTANT: REPLACE WITH YOUR ACTUAL WORKER URL
     const WORKER_BASE_URL = "https://relay-chats.saeed-masoodi.workers.dev";
@@ -742,23 +740,33 @@
     }
     
     async function checkAdminStatus() {
-        const statusSpan = document.getElementById("admin-status");
-        if (!statusSpan) return;
+        const headerStatusSpan = document.getElementById("admin-status");
+        const buttonStatusIndicator = document.getElementById("chat-status-indicator");
+        if (!headerStatusSpan || !buttonStatusIndicator) return;
 
         try {
             const response = await fetch(STATUS_API);
             const data = await response.json();
             
             if (data.online) {
-                statusSpan.textContent = "آنلاین";
-                statusSpan.style.color = "green";
+                // Set Header Status
+                headerStatusSpan.textContent = "آنلاین";
+                headerStatusSpan.style.color = "green";
+                
+                // Set Button Status
+                buttonStatusIndicator.className = "status-online";
             } else {
-                statusSpan.textContent = "آفلاین";
-                statusSpan.style.color = "red";
+                // Set Header Status
+                headerStatusSpan.textContent = "آفلاین";
+                headerStatusSpan.style.color = "red";
+                
+                // Set Button Status
+                buttonStatusIndicator.className = "status-offline";
             }
         } catch (err) {
-            statusSpan.textContent = "وضعیت نامشخص";
-            statusSpan.style.color = "gray";
+            headerStatusSpan.textContent = "وضعیت نامشخص";
+            headerStatusSpan.style.color = "gray";
+            buttonStatusIndicator.className = "status-unknown";
         }
     }
 
@@ -766,7 +774,8 @@
         // --- Widget HTML Structure ---
         const chatButton = document.createElement("div");
         chatButton.id = "chat-widget-btn";
-        chatButton.innerHTML = "💬";
+        // UPDATED: Added the new status indicator element inside the button
+        chatButton.innerHTML = `💬<div id="chat-status-indicator"></div>`; 
         document.body.appendChild(chatButton);
 
         const chatBox = document.createElement("div");

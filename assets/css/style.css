@@ -1360,6 +1360,7 @@ section .container {
   z-index: 9999;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   transition: all 0.3s ease;
+  position: relative;
 }
 #chat-widget-btn:hover {
   background: #005bcc;
@@ -1474,6 +1475,32 @@ section .container {
   background: #eee;
   color: #333;
   border-bottom-left-radius: 5px; /* Tail corner */
+}
+
+/* The Status Circle Indicator */
+#chat-status-indicator {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 3px solid #f9f9f9; /* White border for contrast */
+    z-index: 10000;
+}
+
+/* Color classes set by JavaScript */
+.status-online {
+    background-color: #38c172; /* Bright Green */
+}
+.status-offline, .status-unknown {
+    background-color: #e3342f; /* Red */
+}
+
+/* Optional: Better Header Status Styling */
+#admin-status {
+    font-weight: 700;
+    font-size: 1.1em !important; 
 }
 
 
