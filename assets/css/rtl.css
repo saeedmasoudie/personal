@@ -216,3 +216,22 @@ h6 {
 .pt-25 {
   padding-top: 25px;
 }
+
+html[dir="rtl"] #chat-widget-box {
+  right: 20px;
+  left: auto;
+  direction: rtl;
+}
+
+html[dir="rtl"] #chat-header {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] #chat-msg.user {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+html[dir="rtl"] #chat-input {
+  text-align: right;
+}

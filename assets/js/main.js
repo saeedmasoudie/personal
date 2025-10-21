@@ -679,3 +679,82 @@
   }
 
 })();
+
+/*--------------------------------------------------------------
+# Chat Widget (Telegram + Cloudflare Worker)
+--------------------------------------------------------------*/
+(function() {
+  const CHAT_API = "https://relay-chats.saeed-masoodi.workers.dev/send";
+
+  function initChatWidget() {
+    const chatButton = document.createElement("div");
+    chatButton.id = "chat-widget-btn";
+    chatButton.innerHTML = "💬";
+    document.body.appendChild(chatButton);
+
+    const chatBox = document.createElement("div");
+    chatBox.id = "chat-widget-box";
+    chatBox.innerHTML = `
+      <div id="chat-header">
+        <span>پشتیبانی آنلاین</span>
+        <button id="chat-close">✕</button>
+      </div>
+      <div id="chat-messages"></div>
+      <form id="chat-form">
+        <input type="text" id="chat-input" placeholder="پیام خود را بنویسید..." required />
+        <button type="submit">ارسال</button>
+      </form>
+    `;
+    document.body.appendChild(chatBox);
+
+    // Toggle chat box
+    chatButton.addEventListener("click", () => {
+      const visible = chatBox.style.display === "flex";
+      chatBox.style.display = visible ? "none" : "flex";
+      chatBox.style.flexDirection = "column";
+    });
+
+    document.getElementById("chat-close").addEventListener("click", () => {
+      chatBox.style.display = "none";
+    });
+
+    // Message sending
+    const chatForm = document.getElementById("chat-form");
+    const chatInput = document.getElementById("chat-input");
+    const chatMessages = document.getElementById("chat-messages");
+
+    chatForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const msg = chatInput.value.trim();
+      if (!msg) return;
+
+      const userMsg = document.createElement("div");
+      userMsg.className = "chat-msg user";
+      userMsg.textContent = msg;
+      chatMessages.appendChild(userMsg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      chatInput.value = "";
+
+      try {
+        await fetch(CHAT_API, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: msg })
+        });
+
+        const botReply = document.createElement("div");
+        botReply.className = "chat-msg bot";
+        botReply.textContent = "پیام ارسال شد! پاسخ از طریق تلگرام داده می‌شود.";
+        chatMessages.appendChild(botReply);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      } catch (err) {
+        const errorMsg = document.createElement("div");
+        errorMsg.className = "chat-msg bot";
+        errorMsg.textContent = "خطا در ارسال پیام. لطفا دوباره تلاش کنید.";
+        chatMessages.appendChild(errorMsg);
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", initChatWidget);
+})();
