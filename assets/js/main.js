@@ -683,51 +683,87 @@
 /*--------------------------------------------------------------
 # Chat Widget (Telegram + Cloudflare Worker)
 --------------------------------------------------------------*/
+// Final main.js
+
 (function() {
+    // IMPORTANT: REPLACE WITH YOUR ACTUAL WORKER URL
     const WORKER_BASE_URL = "https://relay-chats.saeed-masoodi.workers.dev";
+    
     const CHAT_API = WORKER_BASE_URL + "/send";
     const POLL_API = WORKER_BASE_URL + "/poll";
+    const STATUS_API = WORKER_BASE_URL + "/status";
     
-    // Get or create a unique session ID for the user
     let sessionId = localStorage.getItem('chatSessionId');
     if (!sessionId) {
-        sessionId = 'SESS_' + Math.random().toString(36).substring(2, 10);
+        // SESS_ + 8 random chars for a simple unique ID
+        sessionId = 'SESS_' + Math.random().toString(36).substring(2, 10); 
         localStorage.setItem('chatSessionId', sessionId);
     }
     
     const POLLING_INTERVAL = 5000; // Check for new replies every 5 seconds
+    const STATUS_CHECK_INTERVAL = 30000; // Check admin status every 30 seconds
 
+    /**
+     * Adds a message to the chat display with correct styling.
+     * @param {string} msg
+     * @param {boolean} isUser - true for customer (right), false for admin (left)
+     */
     function addMessage(msg, isUser) {
         const chatMessages = document.getElementById("chat-messages");
         const msgElement = document.createElement("div");
-        msgElement.className = isUser ? "chat-msg user" : "chat-msg bot";
+        // Use 'user' for customer, 'admin' for admin/bot
+        msgElement.className = isUser ? "chat-msg user" : "chat-msg admin"; 
         msgElement.textContent = msg;
         chatMessages.appendChild(msgElement);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
     async function pollForReplies() {
+        // Only poll if the chat box is actually open
+        const chatBox = document.getElementById("chat-widget-box");
+        if (chatBox.style.display !== "flex") return; 
+
         try {
             const response = await fetch(`${POLL_API}?sessionId=${sessionId}`);
             if (!response.ok) {
-                throw new Error("Polling API request failed");
+                console.error("Polling API request failed with status:", response.status);
+                return;
             }
             const data = await response.json();
             
             if (data.replies && data.replies.length > 0) {
                 data.replies.forEach(reply => {
-                    // Display the reply from the admin (Telegram)
-                    addMessage(reply.text, false); 
+                    addMessage(reply.text, false); // Admin reply is not a user message
                 });
             }
         } catch (err) {
             console.error("Polling error:", err);
-            // Optionally: addMessage("Error checking for replies.", false);
+        }
+    }
+    
+    async function checkAdminStatus() {
+        const statusSpan = document.getElementById("admin-status");
+        if (!statusSpan) return;
+
+        try {
+            const response = await fetch(STATUS_API);
+            const data = await response.json();
+            
+            if (data.online) {
+                statusSpan.textContent = "آنلاین";
+                statusSpan.style.color = "green";
+            } else {
+                statusSpan.textContent = "آفلاین";
+                statusSpan.style.color = "red";
+            }
+        } catch (err) {
+            statusSpan.textContent = "وضعیت نامشخص";
+            statusSpan.style.color = "gray";
         }
     }
 
     function initChatWidget() {
-        // ... (Existing DOM creation logic remains the same) ...
+        // --- Widget HTML Structure ---
         const chatButton = document.createElement("div");
         chatButton.id = "chat-widget-btn";
         chatButton.innerHTML = "💬";
@@ -737,7 +773,8 @@
         chatBox.id = "chat-widget-box";
         chatBox.innerHTML = `
           <div id="chat-header">
-            <span>پشتیبانی آنلاین - Session ID: ${sessionId}</span>
+            <span>پشتیبانی آنلاین</span>
+            <span id="admin-status" style="font-size: 0.9em; margin-right: 10px;">...</span>
             <button id="chat-close">✕</button>
           </div>
           <div id="chat-messages"></div>
@@ -748,11 +785,15 @@
         `;
         document.body.appendChild(chatBox);
         
-        // ... (Toggle/Close event listeners remain the same) ...
+        // --- Event Listeners ---
         chatButton.addEventListener("click", () => {
             const visible = chatBox.style.display === "flex";
             chatBox.style.display = visible ? "none" : "flex";
             chatBox.style.flexDirection = "column";
+            if (!visible) {
+                // When opened, perform an immediate poll
+                pollForReplies(); 
+            }
         });
 
         document.getElementById("chat-close").addEventListener("click", () => {
@@ -762,37 +803,39 @@
         const chatForm = document.getElementById("chat-form");
         const chatInput = document.getElementById("chat-input");
 
-        // Message sending
+        // Message sending handler
         chatForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             const msg = chatInput.value.trim();
             if (!msg) return;
 
-            addMessage(msg, true); // User message
+            addMessage(msg, true); // User message (right side)
             chatInput.value = "";
 
             try {
                 const response = await fetch(CHAT_API, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: msg, sessionId: sessionId }) // Send the sessionId
+                    body: JSON.stringify({ message: msg, sessionId: sessionId })
                 });
                 
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
                 
-                // Add the confirmation message
-                addMessage("پیام شما ارسال شد. لطفا منتظر پاسخ بمانید...", false); 
+                // Success - NO confirmation message is added.
 
             } catch (err) {
                 addMessage("خطا در ارسال پیام. لطفا دوباره تلاش کنید.", false);
             }
         });
         
-        // Start polling for replies
+        // Start polling and status checks
         setInterval(pollForReplies, POLLING_INTERVAL);
-        pollForReplies(); // Initial check
+        
+        // Check status periodically
+        setInterval(checkAdminStatus, STATUS_CHECK_INTERVAL);
+        checkAdminStatus(); // Initial status check
     }
 
     document.addEventListener("DOMContentLoaded", initChatWidget);

@@ -1342,11 +1342,11 @@ section .container {
   opacity: 1;
 }
 
-/* Chat widget base styles */
+/* Chat widget base styles (LTR default) */
 #chat-widget-btn {
   position: fixed;
   bottom: 20px;
-  left: 20px;
+  left: 20px; /* LTR Position */
   width: 60px;
   height: 60px;
   background: #0078ff;
@@ -1368,7 +1368,7 @@ section .container {
 #chat-widget-box {
   position: fixed;
   bottom: 90px;
-  left: 20px;
+  left: 20px; /* LTR Position */
   width: 320px;
   max-width: 90%;
   background: #fff;
@@ -1384,10 +1384,17 @@ section .container {
   background: #0078ff;
   color: white;
   padding: 10px;
-  display: flex;
-  justify-content: space-between;
+  /* UPDATED: Added display: flex for status alignment */
+  display: flex; 
+  justify-content: space-between; 
   align-items: center;
   font-weight: 600;
+  font-size: 16px;
+}
+
+#chat-header span {
+    /* Ensures the main text and status text align */
+    flex-shrink: 0;
 }
 
 #chat-header button {
@@ -1396,6 +1403,7 @@ section .container {
   color: white;
   font-size: 18px;
   cursor: pointer;
+  margin-left: -5px; /* Pull button in slightly */
 }
 
 #chat-messages {
@@ -1403,6 +1411,13 @@ section .container {
   padding: 10px;
   overflow-y: auto;
   background: #f9f9f9;
+}
+
+/* IMPORTANT: Clearfix to contain floated messages */
+#chat-messages::after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
 #chat-form {
@@ -1425,24 +1440,42 @@ section .container {
   cursor: pointer;
 }
 
+/* Directional Message Styling */
 .chat-msg {
-  margin: 5px 0;
-  padding: 8px 12px;
-  border-radius: 10px;
   max-width: 80%;
+  padding: 8px 12px;
+  border-radius: 15px;
+  margin-bottom: 8px;
+  clear: both; /* Essential for floating */
   word-wrap: break-word;
 }
 
+/* Customer Messages (LTR: Right-aligned) */
 .chat-msg.user {
+  /* Alignment */
+  float: right;
+  margin-left: auto;
+  margin-right: 0;
+  
+  /* Styling */
   background: #0078ff;
   color: white;
-  margin-left: auto;
+  border-bottom-right-radius: 5px; /* Tail corner */
 }
 
-.chat-msg.bot {
+/* Admin Messages (LTR: Left-aligned) */
+.chat-msg.admin { /* Renamed from .chat-msg.bot */
+  /* Alignment */
+  float: left;
+  margin-right: auto;
+  margin-left: 0;
+  
+  /* Styling */
   background: #eee;
   color: #333;
+  border-bottom-left-radius: 5px; /* Tail corner */
 }
+
 
 @media (max-width: 600px) {
   #chat-widget-box {

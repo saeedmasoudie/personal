@@ -217,21 +217,51 @@ h6 {
   padding-top: 25px;
 }
 
+/* RTL Overrides */
+html[dir="rtl"] #chat-widget-btn {
+    left: auto;
+    right: 20px; /* RTL Position */
+}
+
 html[dir="rtl"] #chat-widget-box {
-  right: 20px;
-  left: auto;
-  direction: rtl;
+    right: 20px; /* RTL Position */
+    left: auto;
+    direction: rtl;
 }
 
 html[dir="rtl"] #chat-header {
-  flex-direction: row-reverse;
-}
-
-html[dir="rtl"] #chat-msg.user {
-  margin-right: auto;
-  margin-left: 0;
+    /* Use default row direction, but ensure elements are aligned logically for RTL */
+    flex-direction: row; 
 }
 
 html[dir="rtl"] #chat-input {
-  text-align: right;
+    text-align: right;
+}
+
+/* Customer Messages (RTL: Right-aligned) */
+html[dir="rtl"] .chat-msg.user {
+    float: right;
+    margin-right: 0;
+    margin-left: auto; /* Push to the right */
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 5px; /* Keep this corner sharp */
+    border-bottom-left-radius: 15px; 
+}
+
+/* Admin Messages (RTL: Left-aligned) */
+html[dir="rtl"] .chat-msg.admin {
+    float: left;
+    margin-left: 0;
+    margin-right: auto; /* Push to the left */
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 5px; /* Keep this corner sharp */
+    border-bottom-right-radius: 15px;
+}
+
+@media (max-width: 600px) {
+  html[dir="rtl"] #chat-widget-box {
+    right: 2.5%;
+    left: auto;
+    bottom: 80px;
+  }
 }
