@@ -1508,5 +1508,10 @@ section .container {
     width: 95%;
     left: 2.5%;
     bottom: 80px;
+    margin-bottom: 35px;
+    margin-left: 10px;
+  }
+  #chat-widget-btn {
+    margin-bottom: 25px;
   }
 }
