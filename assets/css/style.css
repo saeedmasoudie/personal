@@ -1346,7 +1346,7 @@ section .container {
 #chat-widget-btn {
   position: fixed;
   bottom: 20px;
-  left: 20px; /* LTR Position */
+  left: 20px;
   width: 60px;
   height: 60px;
   background: #0078ff;
@@ -1360,7 +1360,9 @@ section .container {
   z-index: 9999;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   transition: all 0.3s ease;
+  z-index: 1000000;
 }
+
 #chat-widget-btn:hover {
   background: #005bcc;
 }
@@ -1368,7 +1370,7 @@ section .container {
 #chat-widget-box {
   position: fixed;
   bottom: 90px;
-  left: 20px; /* LTR Position */
+  left: 20px;
   width: 320px;
   max-width: 90%;
   background: #fff;
@@ -1384,7 +1386,6 @@ section .container {
   background: #0078ff;
   color: white;
   padding: 10px;
-  /* UPDATED: Added display: flex for status alignment */
   display: flex; 
   justify-content: space-between; 
   align-items: center;
@@ -1393,7 +1394,6 @@ section .container {
 }
 
 #chat-header span {
-    /* Ensures the main text and status text align */
     flex-shrink: 0;
 }
 
@@ -1403,7 +1403,7 @@ section .container {
   color: white;
   font-size: 18px;
   cursor: pointer;
-  margin-left: -5px; /* Pull button in slightly */
+  margin-left: -5px;
 }
 
 #chat-messages {
@@ -1413,7 +1413,6 @@ section .container {
   background: #f9f9f9;
 }
 
-/* IMPORTANT: Clearfix to contain floated messages */
 #chat-messages::after {
     content: "";
     display: table;
@@ -1440,68 +1439,56 @@ section .container {
   cursor: pointer;
 }
 
-/* Directional Message Styling */
 .chat-msg {
   max-width: 80%;
   padding: 8px 12px;
   border-radius: 15px;
   margin-bottom: 8px;
-  clear: both; /* Essential for floating */
+  clear: both;
   word-wrap: break-word;
 }
 
-/* Customer Messages (LTR: Right-aligned) */
 .chat-msg.user {
-  /* Alignment */
   float: right;
   margin-left: auto;
   margin-right: 0;
-  
-  /* Styling */
   background: #0078ff;
   color: white;
-  border-bottom-right-radius: 5px; /* Tail corner */
+  border-bottom-right-radius: 5px;
 }
 
-/* Admin Messages (LTR: Left-aligned) */
-.chat-msg.admin { /* Renamed from .chat-msg.bot */
-  /* Alignment */
+.chat-msg.admin {
   float: left;
   margin-right: auto;
   margin-left: 0;
-  
-  /* Styling */
   background: #eee;
   color: #333;
-  border-bottom-left-radius: 5px; /* Tail corner */
+  border-bottom-left-radius: 5px;
 }
 
-/* The Status Circle Indicator */
 #chat-status-indicator {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 3px solid #f9f9f9; /* White border for contrast */
-    z-index: 10000;
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #f9f9f9;
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* Color classes set by JavaScript */
 .status-online {
-    background-color: #38c172; /* Bright Green */
+    background-color: #38c172;
 }
 .status-offline, .status-unknown {
-    background-color: #e3342f; /* Red */
+    background-color: #e3342f;
 }
 
-/* Optional: Better Header Status Styling */
 #admin-status {
     font-weight: 700;
     font-size: 1.1em !important; 
 }
-
 
 @media (max-width: 600px) {
   #chat-widget-box {
