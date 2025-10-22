@@ -1357,7 +1357,6 @@ section .container {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 9999;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   transition: all 0.3s ease;
   z-index: 1000000;
